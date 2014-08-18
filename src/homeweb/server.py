@@ -1,11 +1,13 @@
+from pkg_resources import resource_filename
 from yaul.daemon import Daemon, run_as_service
-from tornado.web import Application
+from tornado.web import Application, StaticFileHandler
 from tornado.ioloop import IOLoop
 
 from homeweb.handlers.index import IndexHandler
 
 PATHS = [
-         (r'/', IndexHandler)
+         (r'/', IndexHandler),
+         (r'/s/(.*)', StaticFileHandler, {'path': resource_filename(__name__, 'static')}),
          ]
 
 def runserv():

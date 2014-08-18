@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-hello hello
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}fsufitch - Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1>Hello, world!</h1>
+  <p>You did it! You found my small corner of the internet!</p>
+  <p>What would you like to know?</p>
+  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+</div>
+{% endblock %}
