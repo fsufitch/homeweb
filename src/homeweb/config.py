@@ -4,11 +4,11 @@ DEFAULT_CONFPATH = '/etc/homeweb.json'
 CONF = None
 
 def get_config(generate=False, confpath=None):
+    global CONF
     if not CONF:
         if not generate:
             raise Exception("Config not initialized!")
         else:
-            global CONF
             if not confpath:
                 confpath = DEFAULT_CONFPATH
             CONF = Configuration(confpath)
