@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}fsufitch - About You{% endblock %}
+{% set nav_select="you" %}
+
+{% block head %}
+{{super()}}
+<script type='text/javascript' src="//wurfl.io/wurfl.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1>About You</h1>
+  <p>You appear to have loaded this page from the IP address: <em>{{ip.compressed}}</em></p>
+
+  <p id="dev_details">If you have Javascript enabled, more details about you would show up here.</p>
+
+  <script type="text/javascript">
+$(document).ready(function() {
+	$("#dev_details").html();
+	if (WURFL.form_factor == 'Robot') {
+		$("#dev_details").html("Tsk, you appear to be a robot. Please come back as a real person.");
+		return;
+	}
+
+	var message = "";
+	if (WURFL.is_mobile){
+		message += "You appear to be using a mobile device. ";
+	}
+
+	message += 'To browse the web you are using a';
+	if (['a','e','i','o','u'].indexOf(WURFL.complete_device_name[0].toLowerCase())>=0) {
+		message += "n";
+	}
+	message += " " + WURFL.complete_device_name;
+
+	form_factors = {
+			'App': 'a specialized app',
+			'Tablet': 'a tablet',
+			'Smartphone': 'a smartphone',
+			'Feature Phone': 'a "feature phone"',
+			'Smart-TV': 'a smart TV',
+	};
+	if (WURFL.form_factor in form_factors) {
+		message += ", " + form_factors[WURFL.form_factor];
+		//message += " and " + (WURFL.is_mobile?"":"non-") + "mobile device";
+	}
+	message += '.';
+	$("#dev_details").html(message);
+});
+  </script>
+</div>
+{% endblock %}

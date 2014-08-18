@@ -4,9 +4,11 @@ from tornado.web import Application, StaticFileHandler
 from tornado.ioloop import IOLoop
 
 from homeweb.handlers.index import IndexHandler
+from homeweb.handlers.about import AboutYouHandler
 
 PATHS = [
          (r'/', IndexHandler),
+         (r'/you', AboutYouHandler),
          (r'/s/(.*)', StaticFileHandler, {'path': resource_filename(__name__, 'static')}),
          ]
 
