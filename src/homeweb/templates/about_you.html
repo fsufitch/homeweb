@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron">
   <h1>About You</h1>
   <p>You appear to have loaded this page from the IP address: <em>{{ip.compressed}}</em></p>
 
@@ -45,9 +44,11 @@ $(document).ready(function() {
 		message += ", " + form_factors[WURFL.form_factor];
 		//message += " and " + (WURFL.is_mobile?"":"non-") + "mobile device";
 	}
-	message += '.';
+	message += '. ';
+
+	message += 'This information is obtained using <a href="//wurfl.io">WURFL.js</a>, ' +
+	           'based on your user agent: <code>{{user_agent}}</code>';
 	$("#dev_details").html(message);
 });
   </script>
-</div>
 {% endblock %}
