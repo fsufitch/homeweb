@@ -37,6 +37,8 @@ def setup_error_logging(conf):
         raise TypeError('Invalid error log type')
     handler.setLevel(chosen_level)
     handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    LOG.handlers = []
+    LOG.propagate = False
     LOG.addHandler(handler)
     LOG.debug('Error log configured')
     ERROR_LOG_SETUP = True
