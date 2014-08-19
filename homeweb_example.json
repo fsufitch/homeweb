@@ -3,5 +3,13 @@
 		"host": "0.0.0.0",
 		"port": 8888
 	},
+	"error_log": {
+		"type": "stream",
+		"level": "debug",
+		"destination": null
+	},
+	"access_log": {
+		"type": "stdout"
+	},
 	"pidpath": "/tmp/homeweb.pid"
 }

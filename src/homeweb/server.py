@@ -8,6 +8,7 @@ from tornado.ioloop import IOLoop
 from homeweb.config import get_config
 from homeweb.handlers.index import IndexHandler
 from homeweb.handlers.about import AboutYouHandler
+from homeweb.log import setup_logging, ERROR
 
 PATHS = [
          (r'/', IndexHandler),
@@ -16,9 +17,13 @@ PATHS = [
          ]
 
 def runserv(conf):
+    setup_logging(conf)
     application = Application(PATHS)
-    application.listen(conf.get('listen', 'port'),
-                       address=conf.get('listen', 'host') or '')
+    port = conf.get('listen', 'port')
+    host = conf.get('listen', 'host') or ''
+    ERROR.info('Listening on \'%s\', port %s' % (host, port))
+    application.listen(port, address=host)
+    ERROR.info('Starting IO loop...')
     IOLoop.instance().start()
 
 class HomeWebDaemon(Daemon):
