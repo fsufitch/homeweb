@@ -15,7 +15,13 @@ class AboutYouHandler(RequestHandler):
         ip = ip_address(self.request.remote_ip)
         user_agent = self.request.headers['user-agent']
         ERROR.info( (ip, user_agent) )
-        
+
         return {'ip': ip,
                 'user_agent': user_agent,
                 }
+
+class AboutMeHandler(RequestHandler):
+    @write_return
+    @apply_template('about_me.html')
+    def get(self):
+        return {}

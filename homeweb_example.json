@@ -11,5 +11,11 @@
 	"access_log": {
 		"type": "stdout"
 	},
-	"pidpath": "/tmp/homeweb.pid"
+	"pidpath": "/tmp/homeweb.pid",
+	"contact": {
+		"name": "Name here",
+		"email": "foo@bar.com",
+		"g+": "https://plus.google.com/",
+		"phone": "(123)-456-7890"
+	}
 }

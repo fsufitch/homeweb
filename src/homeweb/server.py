@@ -7,12 +7,15 @@ from tornado.ioloop import IOLoop
 
 from homeweb.config import get_config
 from homeweb.handlers.index import IndexHandler
-from homeweb.handlers.about import AboutYouHandler
+from homeweb.handlers.about import AboutYouHandler, AboutMeHandler
+from homeweb.handlers.contact import ContactInfoHandler
 from homeweb.log import setup_logging, ERROR
 
 PATHS = [
          (r'/', IndexHandler),
+         (r'/me', AboutMeHandler),
          (r'/you', AboutYouHandler),
+         (r'/contact', ContactInfoHandler),
          (r'/s/(.*)', StaticFileHandler, {'path': resource_filename(__name__, 'static')}),
          ]
 
