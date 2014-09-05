@@ -30,6 +30,10 @@ def log_request(request_handler):
         if header_name in headers:
             del headers[header_name]
 
+    if not 'X-Real-IP' in headers:
+        # Need this for tracking
+        headers['X-Real-IP'] = request_handler.remote_ip
+
     output = {
               'time': time.time(),
               'method': request.method,
