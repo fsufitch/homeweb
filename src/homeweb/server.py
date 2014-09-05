@@ -22,7 +22,6 @@ PATHS = [
 FORBID_HEADERS = ['Cookie', 'If-None-Match']
 
 def log_request(request_handler):
-    print("hello! "+str(request_handler))
     request = request_handler.request
     headers = dict(request.headers)
 
@@ -32,7 +31,7 @@ def log_request(request_handler):
 
     if not 'X-Real-IP' in headers:
         # Need this for tracking
-        headers['X-Real-IP'] = request_handler.remote_ip
+        headers['X-Real-IP'] = request.remote_ip
 
     output = {
               'time': time.time(),
@@ -42,7 +41,7 @@ def log_request(request_handler):
               'protocol': request.protocol,
               'host': request.host,
               'request_time': request.request_time(),
-              'headers': dict(request.headers),
+              'headers': dict(headers),
               }
     ACCESS.info(json.dumps(output))
 
