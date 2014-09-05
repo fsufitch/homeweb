@@ -67,10 +67,12 @@ endblock %} {% set nav_select="me" %} {% block head %} {{super()}}
 				"this is a real contact info request" : "yup"
 			}, function(data) {
 				parent_p.remove();
+				$("#aboutme-contact").hide();
 				aboutme_add_contact_info("Name", data['name']);
 				aboutme_add_contact_info("E-mail", data['email']);
 				aboutme_add_contact_info("Google+ Profile", data['g+']);
 				aboutme_add_contact_info("Phone", data['phone']);
+				$("#aboutme-contact").slideDown();
 			}, 'json')
 		})
 	})

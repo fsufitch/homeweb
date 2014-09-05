@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/s/bootstrap/css/bootstrap.min.css" />
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/s/bootstrap/js/bootstrap.min.js"></script>
+<script src="/s/js/layout.js"></script>
 {% endblock %}
 </head>
 <body>
@@ -30,7 +31,7 @@
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="layout-navbar-collapse-1">
+				<div class="collapse navbar-collapse" id="layout-navbar-collapse-1" style="overflow: visible">
 					<ul class="nav navbar-nav">
 						<li {{show_active("me")}}><a href="/me">About Me</a></li>
 						<li {{show_active("you")}}><a href="/you">About You</a></li>
@@ -38,8 +39,8 @@
 						<li {{show_active("demos")}}><a href="/demos">Demos</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a class="btn btn-default btn-block">Contact Info</a>
+						<li style="text-align: center"><button type="button" class="btn btn-default navbar-btn" id="contact-btn">Contact
+									Info</a>
 						</li>
 					</ul>
 				</div>

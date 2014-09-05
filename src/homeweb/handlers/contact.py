@@ -15,7 +15,7 @@ class ContactInfoHandler(RequestHandler):
 
     def post(self):
         data = self.get_argument('this is a real contact info request')
-        print(data)
+
         if data != 'yup':
             return self.error_me_scotty()
 
