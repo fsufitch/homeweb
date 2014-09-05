@@ -19,9 +19,17 @@ PATHS = [
          (r'/s/(.*)', StaticFileHandler, {'path': resource_filename(__name__, 'static')}),
          ]
 
+FORBID_HEADERS = ['Cookie', 'If-None-Match']
+
 def log_request(request_handler):
     print("hello! "+str(request_handler))
     request = request_handler.request
+    headers = dict(request.headers)
+
+    for header_name in FORBID_HEADERS:
+        if header_name in headers:
+            del headers[header_name]
+
     output = {
               'time': time.time(),
               'method': request.method,
@@ -30,6 +38,7 @@ def log_request(request_handler):
               'protocol': request.protocol,
               'host': request.host,
               'request_time': request.request_time(),
+              'headers': dict(request.headers),
               }
     ACCESS.info(json.dumps(output))
 
