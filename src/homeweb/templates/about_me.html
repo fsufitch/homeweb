@@ -17,37 +17,63 @@ endblock %} {% set nav_select="me" %} {% block head %} {{super()}}
 	</div>
 	<div class="col-md-6">
 		<h2>Contact Info</h2>
-		<p><button id="aboutme-contact-btn" class="btn btn-success">Push button, get info</button></p>
+		<p>
+			<button id="aboutme-contact-btn" class="btn btn-success">Push
+				button, get info</button>
+		</p>
 		<ul id="aboutme-contact"></ul>
 	</div>
 </div>
 
+<hr />
+{% set techs=[
+('Python', '/s/images/techs/python.png', 'http://python.org'),
+('HTML5', '/s/images/techs/html5.png', 'http://www.w3.org/html5'),
+('Linux', '/s/images/techs/tux.png', ''),
+('PHP', '/s/images/techs/php.png', 'http://php.net'), ] %}
+
+<div class="row">
+	{% for tech_name,tech_img,tech_url in techs %}
+	<div class="col-sm-3">
+	    {% if tech_url %}
+		<a href="{{tech_url}}" target="_blank">
+		{% endif %}
+		<img class="img-responsive" src="{{tech_img}}" title="{{tech_name}}"/>
+	    {% if tech_url %}
+	    </a>
+		{% endif %}
+	</div>
+	{% endfor %}
+</div>
+
 <script type="text/javascript">
+	function aboutme_add_contact_info(k, v) {
+		var new_el = $("<li>");
+		new_el.append($("<strong>", {
+			text : k + ":"
+		}));
+		new_el.append($("<span>", {
+			text : " " + v
+		}));
+		$("#aboutme-contact").append(new_el);
+	}
 
-function aboutme_add_contact_info(k, v) {
-	var new_el = $("<li>");
-	new_el.append($("<strong>", {text: k+":"}));
-	new_el.append($("<span>", {text: " "+v}));
-	$("#aboutme-contact").append(new_el);
-}
-
-$(document).ready(function() {
-	$("#aboutme-contact-btn").click(function() {
-		var parent_p = $(this).parent();
-		$(this).remove();
-		parent_p.text("Loading...");
-		$.post("/contact", {"this is a real contact info request": "yup"},
-				function(data) {
-			parent_p.remove();
-			aboutme_add_contact_info("Name", data['name']);
-			aboutme_add_contact_info("E-mail", data['email']);
-			aboutme_add_contact_info("Google+ Profile", data['g+']);
-			aboutme_add_contact_info("Phone", data['phone']);
-		}, 'json')
-		//aboutme_add_contact_info("foo", "bar");
-		//aboutme_add_contact_info("bar", "ZZZ");
+	$(document).ready(function() {
+		$("#aboutme-contact-btn").click(function() {
+			var parent_p = $(this).parent();
+			$(this).remove();
+			parent_p.text("Loading...");
+			$.post("/contact", {
+				"this is a real contact info request" : "yup"
+			}, function(data) {
+				parent_p.remove();
+				aboutme_add_contact_info("Name", data['name']);
+				aboutme_add_contact_info("E-mail", data['email']);
+				aboutme_add_contact_info("Google+ Profile", data['g+']);
+				aboutme_add_contact_info("Phone", data['phone']);
+			}, 'json')
+		})
 	})
-})
 </script>
 
 {% endblock %}
