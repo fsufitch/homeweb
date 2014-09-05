@@ -12,7 +12,7 @@ class AboutYouHandler(RequestHandler):
     @write_return
     @apply_template('about_you.html')
     def get(self):
-        ip = ip_address(self.request.remote_ip)
+        ip = ip_address(self.request.headers.get('X-Real-Ip', self.request.remote_ip))
         user_agent = self.request.headers['user-agent']
         ERROR.info( (ip, user_agent) )
 
