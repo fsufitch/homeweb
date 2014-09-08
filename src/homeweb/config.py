@@ -1,4 +1,4 @@
-import json
+import json, memcache
 
 DEFAULT_CONFPATH = '/etc/homeweb.json'
 CONF = None
@@ -16,6 +16,7 @@ def get_config(generate=False, confpath=None):
 
 class Configuration(object):
     def __init__(self, confpath):
+        self.memcache = None
         with open(confpath) as f:
             self.raw = json.loads(f.read())
 
@@ -28,3 +29,11 @@ class Configuration(object):
             if not current_conf:
                 return None
         return current_conf
+
+    def get_memcache_client(self):
+        if not self.memcache:
+            servers = self.get('memcache', 'servers')
+            if not servers:
+                servers = ['localhost']
+            self.memcache = memcache.Client(servers)
+        return self.memcache

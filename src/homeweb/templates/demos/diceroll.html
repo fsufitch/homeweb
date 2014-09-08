@@ -1,0 +1,56 @@
+{% extends "layout.html" %} {% block title %}fsufitch - Dice Roller{%
+endblock %} {% set nav_select="demo" %} {% block content %}
+<h1>
+	XdY Dice Roller {% if session %} <small>Session ID: <a href="">{{session.uid}}</a></small>
+	{% endif %}
+
+</h1>
+{% if not session %}
+<p>
+	Need dice for D&D and stuff? Or did you mean the <a href="#">offline-capable
+		dice roller</a>? {% endif %}
+</p>
+
+<h2>Rolls:</h2>
+
+{% set index=0 %} {% for diceroll in session.rolls %} {% set
+index=index+1 %}
+<div class="panel panel-default" id="roll_{{index}}">
+	<div class="panel-heading">
+		<strong><a href="#roll_{{index}}">{% if diceroll.comment
+				%}{{diceroll.comment}}{% else %}Roll #{{index}}{% endif %}</a></strong>
+		<code>{{diceroll.rolldef_dirty}}</code>
+	</div>
+	<div class="panel-body">
+	<h3>Total: {{diceroll.roll[0]}}</h3>
+	</div>
+</div>
+{% endfor %}
+
+<div class="well">
+	<h2>New dice roll {% if session %} session {% endif %}</h2>
+	<form role="form" method="post">
+		<input type="hidden" name="new-session" value="true" />
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="dice-input">Dice Roll</label> <input type="text"
+						class="form-control" id="dice-input" name="dice-input"
+						placeholder="1d8 + 3d6 - 2d4 + 3 - 5" />
+					<p class="help-block">Input rolls in d20 format (e.g.
+						1d8+3d6-2d4+3-5).</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="comment">Comment</label> <input type="text"
+						class="form-control" id="comment" name="comment"
+						placeholder="Renard's Hide check" />
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+
+{% endblock %}

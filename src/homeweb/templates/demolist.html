@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}fsufitch - Demos{% endblock %}
+{% set nav_select="demo" %}
+
+{% block content %}
+  <h1>Demos</h1>
+  <p> This is where demos and stuff go </p>
+  <ul>
+  {% for demo_id, demo_name in demos %}
+  <li><a href="{{demo_id}}">{{demo_name}}</a></li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}

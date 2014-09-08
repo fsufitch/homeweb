@@ -12,6 +12,9 @@
 		"type": "stdout"
 	},
 	"pidpath": "/tmp/homeweb.pid",
+	"memcache": {
+		"servers": ["localhost"]
+	}
 	"contact": {
 		"name": "Name here",
 		"email": "foo@bar.com",

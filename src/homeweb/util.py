@@ -1,3 +1,5 @@
+import random, string
+
 from jinja2 import Environment, PackageLoader
 
 TEMPLATE_ENVIRONMENT = None
@@ -31,3 +33,16 @@ def write_return(func):
         if type(result) in (str, bytes):
             _self.write(result)
     return _write_return
+
+DEFAULT_UID_CHARS = string.ascii_lowercase + string.digits
+def get_random_uid(is_good=None, length=5, chars=[]):
+    chars = chars or DEFAULT_UID_CHARS
+    if is_good is None:
+        is_good = lambda x: True  # If no "good" condition given, assume it's fine
+    uid = ''
+    while not (uid and is_good(uid)):
+        uid = []
+        for i in range(length):
+            uid.append(random.choice(chars))
+        uid = ''.join(uid)
+    return uid
