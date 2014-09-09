@@ -17,7 +17,7 @@ class DicerollHandler(RequestHandler):
             self.write_error(404)
             return
 
-        return {'error': error, 'session': session}
+        return {'error': error, 'session': session, 'float': float}
 
     @write_return
     @apply_template("demos/diceroll.html")
@@ -93,6 +93,7 @@ class DiceRoll(object):
         self.roll_results = []
         self.roll_total = 0
         self.parse()
+        self.do_roll()
 
     def parse(self):
         match = DiceRoll.DICE_REGEX.search(self.rolldef)
@@ -106,7 +107,7 @@ class DiceRoll(object):
     def roll(self):
         if not self.roll_results:
             self.do_roll()
-        return self.roll_total, self.roll_results
+        return self.roll_total, self.roll_min, self.roll_max, self.roll_results
 
     def do_roll(self, reroll=False):
         if not reroll and self.roll_results:
@@ -119,19 +120,24 @@ class DiceRoll(object):
             roll_sign = roll_exp[0]
             if "d" in roll_exp:
                 num_dice, num_sides = roll_exp[1:].split("d")
-                roll_entry['num_dice'] = num_dice
-                roll_entry['num_sides'] = num_sides
+                roll_entry['num_dice'] = int(num_dice)
+                roll_entry['num_sides'] = int(num_sides)
                 dice_rolls = DiceRoll.roll_dice(num_dice, num_sides)
                 roll_entry['rolls'] = dice_rolls
+                roll_entry['min'] = roll_entry['num_dice']
+                roll_entry['max'] = roll_entry['num_dice'] * roll_entry['num_sides']
             else:
                 # Constant value
                 roll_entry['num_dice'] = 0
                 roll_entry['num_sides'] = 0
                 roll_entry['rolls'] = []
                 dice_rolls = [int(roll_exp[1:])]
+                roll_entry['min'] = dice_rolls[0]
+                roll_entry['max'] = dice_rolls[0]
             roll_entry['value'] = sum(dice_rolls) * {'+':1,'-':-1}[roll_sign]
             self.roll_results.append(roll_entry)
 
         self.roll_total = sum([entry['value'] for entry in self.roll_results])
-        return self.roll_total, self.roll_results
+        self.roll_min = sum([entry['min'] for entry in self.roll_results])
+        self.roll_max = sum([entry['max'] for entry in self.roll_results])
 

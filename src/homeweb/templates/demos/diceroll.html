@@ -22,7 +22,55 @@ index=index+1 %}
 		<code>{{diceroll.rolldef_dirty}}</code>
 	</div>
 	<div class="panel-body">
-	<h3>Total: {{diceroll.roll[0]}}</h3>
+		{% set roll_total, roll_min, roll_max, roll_details = diceroll.roll %}
+		{% set min_width = "%.1f" % ((roll_min/roll_max)*100) %}
+		{% set total_width = "%.1f" % ((roll_total/roll_max-roll_min/roll_max)*100) %}
+		{% set max_width = "%.2f" % (100-float(min_width)-float(total_width)) %}
+		<div class="row">
+			<div class="col-sm-2">
+				<h3>Total: {{roll_total}}</h3>
+			</div>
+			<div class="col-sm-10">
+				<div class="progress">
+					<div class="progress-bar progress-bar-success progress-bar-striped active"
+						style="width: {{min_width}}%">
+						<strong>Min:</strong> {{roll_min}}
+					</div>
+					<div class="progress-bar progress-bar-success" style="width: {{total_width}}%">
+						<strong>Roll:</strong> {{roll_total}}
+					</div>
+					<div class="progress-bar progress-bar-info" style="width: {{max_width}}%">
+						<strong>Max:</strong> {{roll_max}}
+					</div>
+				</div>
+				<div class="row">
+				<div class="col-xs-6">
+				<strong>Precentile:</strong> {{ "%.2f" %
+				((roll_total-roll_min)/(roll_max-roll_min) * 100) }}%
+				</div>
+				<div class="col-xs-6">
+				<strong>Average:</strong> {{ "%d" %
+				((roll_max+roll_min)/2) }}
+				</div>
+				</div>
+			</div>
+		</div>
+		<hr />
+		{% for roll_entry in roll_details %}
+		<div class="row">
+			<div class="col-sm-1">
+				<h4>{{roll_entry['roll_exp']}}</h4>
+			</div>
+			<div class="col-sm-1">
+				<h4>{{roll_entry['value']}}</h4>
+			</div>
+			<div class="col-sm-10">
+				{% if roll_entry['rolls'] %} = <strong>{{roll_entry['rolls'][0]}}</strong>
+				{% for die_value in roll_entry['rolls'][1:] %} + <strong>{{die_value}}</strong>
+				{% endfor %} {% endif %}
+			</div>
+		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endfor %}
