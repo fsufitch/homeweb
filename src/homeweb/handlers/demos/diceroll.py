@@ -27,23 +27,37 @@ class DicerollHandler(RequestHandler):
     @write_return
     @apply_template("demos/diceroll.html")
     def post(self, sessionid=None):
-        if self.get_argument("new-session") == "true":
+        if self.get_argument("new-session", None) == "true":
             rollspec = self.get_argument("dice-input")
             rollcomm = self.get_argument("comment", "")
             try:
                 diceroll = DiceRoll(rollspec, rollcomm)
             except InvalidDiceExpressionException as e:
                 self.display_dice_session(self, error=' '.join(e.args))
-            diceroll.do_roll()
-
+            
             session = DiceSession()
             session.add_roll(diceroll)
             session.save()
 
             prefix = '' if self.request.path.endswith('/') else 'dice/'
             self.redirect(prefix+session.uid)
-            return
-        self.write_error(403)
+        elif self.get_argument("add-roll-session", None) == "true":
+            session = DiceSession.get_cached_session(sessionid)
+            if not session:
+                self.write_error(400)
+                return
+            rollspec = self.get_argument("dice-input")
+            rollcomm = self.get_argument("comment", "")
+            try:
+                diceroll = DiceRoll(rollspec, rollcomm)
+            except InvalidDiceExpressionException as e:
+                self.display_dice_session(self, error=' '.join(e.args))
+            
+            session.add_roll(diceroll)
+            session.save()
+            self.redirect("")
+        else:
+            self.write_error(403)
 
 class DiceSession(object):
     @staticmethod
