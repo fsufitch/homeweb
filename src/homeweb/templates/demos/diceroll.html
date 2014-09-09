@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block title %}fsufitch - Dice Roller{%
 endblock %} {% set nav_select="demo" %} {% block content %}
 <h1>
-	XdY Dice Roller {% if session %} <small>Session ID: <a href="">{{session.uid}}</a></small>
+	XdY Dice Roller {% if session %} <small>Session ID: <a href="">{{session.uid}}</a> <a href="." class="btn btn-default">New Session</a></small>
 	{% endif %}
 
 </h1>
