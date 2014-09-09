@@ -10,7 +10,13 @@ from homeweb.util import apply_template, write_return
 class InvalidDiceExpressionException(ValueError):
     pass
 
-class DicerollHandler(RequestHandler):
+class OldDiceRollHandler(RequestHandler):
+    @write_return
+    @apply_template("demos/diceroll_old.html")
+    def get(self, path):
+        return {}
+
+class DiceRollHandler(RequestHandler):
     def display_dice_session(self, sessionid=None, error=None):
         session = None
         if sessionid:

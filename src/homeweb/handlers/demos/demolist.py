@@ -1,10 +1,11 @@
 from tornado.web import RequestHandler
 
-from homeweb.handlers.demos.diceroll import DicerollHandler
+from homeweb.handlers.demos.diceroll import DiceRollHandler, OldDiceRollHandler
 from homeweb.util import apply_template, write_return
 
 class DemoListHandler(RequestHandler):
-    demos = [('dice', 'XdY Dice Roller', DicerollHandler),
+    demos = [('dice', 'XdY Dice Roller', DiceRollHandler),
+             ('olddice', 'Old Dice Roller (offline)', OldDiceRollHandler)
              ]
 
     @classmethod

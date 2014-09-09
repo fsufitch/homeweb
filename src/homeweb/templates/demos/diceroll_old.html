@@ -1,0 +1,73 @@
+{% extends "layout.html" %} {% block title %}fsufitch - Old Dice Roll{%
+endblock %} {% set nav_select="demo" %} {% block head %} {{super()}}
+
+<script type="text/javascript">
+	function roll() {
+		var results = $('#results');
+		var a = parseInt($('#a').val());
+		var b = parseInt($('#b').val());
+		var c = parseInt($('#c').val());
+		if (!c)
+			c = 0;
+		var d = parseInt($('#d').val());
+		if (!d)
+			d = 0;
+
+		var res = "";
+
+		var sum = 0;
+
+		for (var i = 0; i < a; i += 1) {
+			var r = parseInt(b * Math.random() + 1 + d);
+			res += r + "<br />";
+			sum += r;
+		}
+
+		if (c)
+			res += "<br /> Pre-bonus sum: " + sum;
+		sum += c;
+		res += "<br /> <strong> Sum: " + sum + " </strong>";
+
+		var percent = (parseInt(sum / ((1.0 * a * (b + d)) + c) * 10000)) / 100.0;
+
+		res += "<br /><br /> Percent of max: " + percent + "%";
+		results.html(res);
+
+		$("#quicksum").html(sum);
+
+		$(".quicksum").show('slow');
+		$("#results").show('slow');
+		$("#reroll").show('slow');
+		return false;
+	}
+</script>
+
+
+{% endblock %} {% block content %}
+<h1>Old Dice Roller (offline-capable)</h1>
+
+<p>Once you load this page, you can safely turn your internet off if
+	you're super paranoid about snooping aliens. <a href="/demos/dice">Back to real dice.</a></p>
+
+<div class="well">
+	<div class="alert alert-info">
+		Sum: <span id="quicksum"> </span>
+	</div>
+
+	<b>Roll: </b>
+
+	<form onsubmit="return roll();" role="form" class="form-inline">
+		<input type="number" id="a" name="a" width="3" class="num form-control" />d<input
+			type="number" id="b" name="b" width="3" class="num form-control" />+<input
+			type="number" id="c" name="c" class="num form-control" /> <br /> Per-roll Bonus: <input
+			type="number" id="d" name="d" class="num form-control" /> <br /> <br /> <input
+			type="submit" value="Roll!" class="btn btn-primary"/>
+	</form>
+
+	<br /> <br />
+
+	<div style="" id="results"></div>
+	<input type="button" onclick="roll()" value="Re-roll" id="reroll"
+		style="display: none" class="btn btn-default"/>
+</div>
+{% endblock %}
