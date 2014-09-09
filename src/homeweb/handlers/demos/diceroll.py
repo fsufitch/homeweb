@@ -12,7 +12,9 @@ class InvalidDiceExpressionException(ValueError):
 
 class DicerollHandler(RequestHandler):
     def display_dice_session(self, sessionid=None, error=None):
-        session = DiceSession.get_cached_session(sessionid)
+        session = None
+        if sessionid:
+            session = DiceSession.get_cached_session(sessionid)
         if sessionid and not session:
             self.write_error(404)
             return
@@ -33,7 +35,7 @@ class DicerollHandler(RequestHandler):
             try:
                 diceroll = DiceRoll(rollspec, rollcomm)
             except InvalidDiceExpressionException as e:
-                self.display_dice_session(self, error=' '.join(e.args))
+                return self.display_dice_session(sessionid, error=' '.join(e.args))
             
             session = DiceSession()
             session.add_roll(diceroll)
@@ -51,7 +53,7 @@ class DicerollHandler(RequestHandler):
             try:
                 diceroll = DiceRoll(rollspec, rollcomm)
             except InvalidDiceExpressionException as e:
-                self.display_dice_session(self, error=' '.join(e.args))
+                return self.display_dice_session(sessionid, error=' '.join(e.args))
             
             session.add_roll(diceroll)
             session.save()

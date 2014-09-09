@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{% endblock %}</title> {% block head %}
-<link href="/s/images/webicon.png" rel="shortcut icon"/>
+<link href="/s/images/webicon.png" rel="shortcut icon" />
 <link rel="stylesheet" href="/s/bootstrap/css/bootstrap.min.css" />
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/s/bootstrap/js/bootstrap.min.js"></script>
@@ -15,7 +15,9 @@
 
 	<div class="container">
 
-		{% macro show_active(item_name) -%}{% if item_name==nav_select %}class="active"{% endif %}{%- endmacro %}
+		{% macro show_active(item_name, dropdown=False) -%}{% if
+		item_name==nav_select and dropdown %}class="active dropdown"{% elif
+		item_name==nav_select%}class="active"{% endif %}{%- endmacro %}
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -31,17 +33,19 @@
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="layout-navbar-collapse-1" style="overflow: visible">
+				<div class="collapse navbar-collapse" id="layout-navbar-collapse-1"
+					style="overflow: visible">
 					<ul class="nav navbar-nav">
-						<li {{show_active("me")}}><a href="/me">About Me</a></li>
-						<li {{show_active("you")}}><a href="/you">About You</a></li>
-						<li {{show_active("blog")}}><a href="//www.thewholepython.com">Blog</a></li>
-						<li {{show_active("demos")}}><a href="/demos/">Demos</a></li>
+						<li{{show_active("me")}}><a href="/me">About Me</a></li>
+						<li{{show_active("you")}}><a href="/you">About You</a></li>
+						<li{{show_active("blog")}}><a
+							href="//www.thewholepython.com">Blog</a></li>
+						<li {{show_active("demo")}}><a href="/demos/">Demos</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li style="text-align: center"><button type="button" class="btn btn-default navbar-btn" id="contact-btn">Contact
-									Info</a>
-						</li>
+						<li style="text-align: center"><button type="button"
+								class="btn btn-default navbar-btn" id="contact-btn">
+								Contact Info</button></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -49,9 +53,7 @@
 			<!-- /.container-fluid -->
 		</nav>
 
-		<div>
-		{% block content %}Content goes here {% endblock %}
-		</div>
+		<div>{% block content %}Content goes here {% endblock %}</div>
 	</div>
 
 

@@ -1,15 +1,21 @@
 {% extends "layout.html" %} {% block title %}fsufitch - Dice Roller{%
 endblock %} {% set nav_select="demo" %} {% block content %}
 <h1>
-	XdY Dice Roller {% if session %} <small>Session ID: <a href="">{{session.uid}}</a> <a href="." class="btn btn-default">New Session</a></small>
-	{% endif %}
+	XdY Dice Roller {% if session %} <small>Session ID: <a href="">{{session.uid}}</a>
+		<a href="." class="btn btn-default">New Session</a></small> {% endif %}
 
 </h1>
 {% if not session %}
 <p>
 	Need dice for D&D and stuff? Or did you mean the <a href="#">offline-capable
-		dice roller</a>? {% endif %}
+		dice roller</a>?
 </p>
+{% endif %}
+
+{% if error %}
+<div class="alert alert-danger"><strong>Error:</strong> {{error}}</div>
+{% endif %}
+
 
 <h2>Rolls:</h2>
 
@@ -23,35 +29,36 @@ index=index+1 %}
 	</div>
 	<div class="panel-body">
 		{% set roll_total, roll_min, roll_max, roll_details = diceroll.roll %}
-		{% set min_width = "%.1f" % ((roll_min/roll_max)*100) %}
-		{% set total_width = "%.1f" % ((roll_total/roll_max-roll_min/roll_max)*100) %}
-		{% set max_width = "%.2f" % (100-float(min_width)-float(total_width)) %}
+		{% set min_width = "%.1f" % ((roll_min/roll_max)*100) %} {% set
+		total_width = "%.1f" % ((roll_total/roll_max-roll_min/roll_max)*100)
+		%} {% set max_width = "%.2f" %
+		(100-float(min_width)-float(total_width)) %}
 		<div class="row">
 			<div class="col-sm-2">
 				<h3>Total: {{roll_total}}</h3>
 			</div>
 			<div class="col-sm-10">
 				<div class="progress">
-					<div class="progress-bar progress-bar-success progress-bar-striped active"
+					<div class="progress-bar progress-bar-success"
 						style="width: {{min_width}}%">
 						<strong>Min:</strong> {{roll_min}}
 					</div>
-					<div class="progress-bar progress-bar-success" style="width: {{total_width}}%">
+					<div class="progress-bar" style="width: {{total_width}}%">
 						<strong>Roll:</strong> {{roll_total}}
 					</div>
-					<div class="progress-bar progress-bar-info" style="width: {{max_width}}%">
+					<div class="progress-bar progress-bar-info"
+						style="width: {{max_width}}%">
 						<strong>Max:</strong> {{roll_max}}
 					</div>
 				</div>
 				<div class="row">
-				<div class="col-xs-6">
-				<strong>Precentile:</strong> {{ "%.2f" %
-				((roll_total-roll_min)/(roll_max-roll_min) * 100) }}%
-				</div>
-				<div class="col-xs-6">
-				<strong>Average:</strong> {{ "%d" %
-				((roll_max+roll_min)/2) }}
-				</div>
+					<div class="col-xs-6">
+						<strong>Precentile:</strong> {{ "%.2f" %
+						((roll_total-roll_min)/(roll_max-roll_min) * 100) }}%
+					</div>
+					<div class="col-xs-6">
+						<strong>Average:</strong> {{ "%.1f" % ((roll_max+roll_min)/2) }}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -78,11 +85,9 @@ index=index+1 %}
 <div class="well">
 	<h2>New dice roll {% if not session %} session {% endif %}</h2>
 	<form role="form" method="post">
-		{% if not session %}
-		<input type="hidden" name="new-session" value="true" />
-		{% else %}
-		<input type="hidden" name="add-roll-session" value="true" />
-		{% endif %}
+		{% if not session %} <input type="hidden" name="new-session"
+			value="true" /> {% else %} <input type="hidden"
+			name="add-roll-session" value="true" /> {% endif %}
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
