@@ -10,6 +10,7 @@ from homeweb.handlers.index import IndexHandler
 from homeweb.handlers.about import AboutYouHandler, AboutMeHandler
 from homeweb.handlers.contact import ContactInfoHandler
 from homeweb.handlers.demos.demolist import DemoListHandler
+from homeweb.handlers.teapot import TeapotHandler
 from homeweb.log import setup_logging, ERROR, ACCESS
 
 PATHS = [
@@ -18,6 +19,7 @@ PATHS = [
          (r'/you', AboutYouHandler),
          (r'/contact', ContactInfoHandler),
          (r'/demos/', DemoListHandler),
+         (r'/teapot', TeapotHandler),
          (r'/s/(.*)', StaticFileHandler, {'path': resource_filename(__name__, 'static')}),
          ]
 PATHS += DemoListHandler.get_demo_paths('/demos/')
