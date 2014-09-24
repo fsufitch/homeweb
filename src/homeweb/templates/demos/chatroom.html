@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% block title %}fsufitch - Chatroom{% endblock %}
+{% set nav_select="demo" %}
+
+{% block head %}
+{{super()}}
+
+<style type="text/css">
+	#chat-interface {
+		display: none;
+	}
+	#chat-area {
+		height: 30em;
+		font-family: monospace;
+		overflow-x: auto;
+		overflow-y: scroll;
+	}
+	.chat-line:nth-child(even) {
+		background-color: white;
+	}
+	.chat-date {
+		font-style: italic;
+	}
+
+	.chat-name {
+		font-weight: bold;
+	}
+</style>
+
+<script type="text/javascript">
+
+function append_message(date, user, msg) {
+	var row = $('<div>', {
+		'class': 'row chat-line',
+	});
+	row.append($('<div>', {
+		'class': 'col-md-3 chat-date',
+		'text': '['+ date + ']',
+	}) );
+	row.append($('<div>', {
+		'class': 'col-md-2 chat-name',
+		'text': '<'+ user + '>',
+	}) );
+	row.append($('<div>', {
+		'class': 'col-md-7 chat-message',
+		'text': msg,
+	}) );
+	row.appendTo($("#chat-area"));
+	$("#chat-area").scrollTop($("#chat-area").prop("scrollHeight"));
+};
+
+var WS = new WebSocket("{{ws_path}}");;
+var username = null;
+
+WS.onmessage = function(evt) {
+	if (username==null) return; // nothing if you're not logged in, dummy
+
+	var data = JSON.parse(evt.data);
+	if (data['action']=='init_success') {
+		$("#chat-welcome").hide();
+		$("#chat-interface").show();
+		$("#name-tag").text(username);
+		$("#message-text").focus();
+	} else if (data['action']=='send_message') {
+		msgdata = data['data'];
+		append_message(msgdata['date'], msgdata['username'], msgdata['message']);
+	}
+}
+
+$(document).ready(function() {
+	$("#welcome-form").submit(function(ev) {
+		ev.preventDefault();
+		username = $("#name-input").val();
+		// Name checks here
+		var msg = {
+			'action': 'init_chat',
+			'username': username,
+		};
+		WS.send( JSON.stringify(msg) );
+	});
+
+	$("#message-form").submit(function(ev) {
+		ev.preventDefault();
+		var text = $("#message-text").val();
+		$("#message-text").val("");
+		$("#message-text").focus();
+		var msg = {
+				'action': 'message',
+				'message': text,
+		};
+		WS.send( JSON.stringify(msg) );
+	});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<h1> Chatroom Demo </h1>
+<p>
+	This chatroom functions without the use of <a href="https://en.wikipedia.org/wiki/Ajax_(programming)">AJAX</a>
+	and instead makes use of <a href="https://en.wikipedia.org/wiki/WebSocket">WebSocket</a> programming for quick
+	and easy back and forth communication between the webserver and your browser.
+</p>
+
+<div id="chat-welcome">
+	<h2> Join the conversation! </h2>
+	<form class="form form-inline" id="welcome-form">
+		<input type="text" placeholder="Your name" class="form-control" id="name-input" />
+		<input type="submit" class="btn btn-primary" value="Join" />
+	</form>
+</div>
+
+<div id="chat-interface">
+	<div class="well" id="chat-area">
+	</div>
+
+	<form class="form" id="message-form">
+		<div class="input-group">
+			<span class="input-group-addon" id="name-tag">Your name here</span>
+			<input type="text" class="form-control" id="message-text"/>
+			<span class="input-group-btn">
+				<input class="btn btn-primary" type="submit" value="Send" />
+			</span>
+		</div>
+	</form>
+</div>
+
+{% endblock %}
