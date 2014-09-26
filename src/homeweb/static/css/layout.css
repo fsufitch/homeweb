@@ -1,0 +1,15 @@
+html, body{
+    height: 100%;
+}
+
+body {
+    background-image: url('/s/images/background.png');
+}
+
+.container {
+    background: #FFF;
+    min-height: 100%;
+    box-shadow: 0px 0px 50px #FFF;
+    border-radius: 0px 0px 6px 6px;
+
+}
