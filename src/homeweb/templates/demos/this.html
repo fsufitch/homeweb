@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title %}fsufitch - This Website{% endblock %}
+{% set nav_select="demo" %}
+
+{% block content %}
+<h1> This Website </h1>
+
+<p>
+  This whole website is an experiment and a demo! Building a website
+  out of a simple directory structure of PHP, plain HTML, and some
+  CSS/Javascript is old hat. All the cool developers write a whole
+  webserver to deliver very simple data.
+</p>
+<p> Okay, not really. It does serve as a nice staging ground and
+  &quot;reference&quot; for myself, and lets me
+  <a href="https://github.com/fsufitch/homeweb">showcase its source
+    code on Git</a>. Curious what's in the mix? </p>
+
+<div class="row">
+  <div class="col-sm-3">
+    <img class="img-responsive" src="/s/images/this/tornado.png"/>
+  </div>
+  <div class="col-sm-9">
+    <h2> Tornado webserver </h2>
+    <p> <a href="http://www.tornadoweb.org/" target="_blank">Tornado</a>
+      is a Python-based webserver with some small framework elements
+      built-in. It serves the website at <a
+      href="http://opensourcenerd.com">opensourcenerd.com</a>
+      entirely. Who needs Apache? 
+    </p>
+    <p> Tornado is special in that it is designed to take advantage of
+      Python threading. It uses this to have a persistent run environment
+      in which one request doesn't have to wait on the others to
+      complete. This design choice enables the use of  <a
+      href="https://en.wikipedia.org/wiki/WebSocket">Websockets</a>, as
+      demonstrated in the <a href="/demos/chatroom">chatroom demo</a>.
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">
+    <img class="img-responsive" src="/s/images/this/bootstrap.png" style="float:
+         left" />
+  </div>
+  <div class="col-sm-9">
+    <h2> Twitter Bootstrap 3 </h2>
+    <p> <a href="http://www.getboostrap.com/"
+           target="_blank">Bootstrap</a> brings some sanity to quickly and
+      easily designing robust web interfaces that are not only easy to
+      navigate and use, but are also responsive (they adapt to whatever
+      the viewer's screen is).
+    </p>
+  </div>
+</div>
+<hr />
+<p> More coming Soon&trade;. </p>
+{% endblock %}
