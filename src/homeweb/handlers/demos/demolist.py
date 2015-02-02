@@ -20,6 +20,10 @@ class DemoListHandler(RequestHandler):
             path = prefix + demo_id
             entry = (path, demo_handler)
             paths.append(entry)
+
+            path = prefix + demo_id + "/(.*)"
+            entry = (path, demo_handler)
+            paths.append(entry)
         print(paths)
         return paths
 
