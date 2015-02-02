@@ -13,7 +13,7 @@ class InvalidDiceExpressionException(ValueError):
 class OldDiceRollHandler(RequestHandler):
     @write_return
     @apply_template("demos/diceroll_old.html")
-    def get(self, path):
+    def get(self, path=None):
         return {}
 
 class DiceRollHandler(RequestHandler):
