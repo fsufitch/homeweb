@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}fsufitch - Chatroom{% endblock %}
+{% set nav_select="demo" %}
+
+{% block head %}
+{{ super() }}
+
+<script type="text/javascript">
+function update_status(status) {
+  var state_messages = {
+    'building': 'Building container...',
+    'running': 'Running code...',
+    'done': 'Done!',
+    'error/build': 'Error (build)!',
+    'error/run': 'Error (run)!',
+  }
+
+  $("#code_progress").text(state_messages[status['state']]);
+  if (status['result']) {
+    $("#result").text(status['result']);
+  } else {
+    if (status['state']!=='done') {
+      setTimeout(update_ajax, 1000);
+    }
+  }
+}
+
+ function update_ajax() {
+   $.post("", update_status);
+ }
+
+$(document).ready(function() {
+  update_status({{update}});
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<h1> Codebox Demo </h1>
+<p>
+  <a href="https://github.com/fsufitch/codebox">Codebox</a> is a small
+  code sandboxing experiment meant to enable running code written in a
+  multitude of languages in a safe, sandboxed environment. It
+  accomplishes this using <a href="http://docker.io">docker.io</a>
+  LXC containers. 
+</p>
+
+<p> 
+  The {{env['text']}} code you submitted was:
+</p>
+
+<pre>{{code|e}}</pre>
+
+<hr />
+<h2> Result: <small id="code_progress">Waiting...</small> </h2>
+
+<div id="error"></div>
+
+<pre id="result"></pre>
+
+{% endblock %}

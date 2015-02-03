@@ -2,6 +2,7 @@ from tornado.web import RequestHandler
 
 from homeweb.handlers.demos.diceroll import DiceRollHandler, OldDiceRollHandler
 from homeweb.handlers.demos.chatroom import ChatroomHandler, ChatroomWSHandler
+from homeweb.handlers.demos.codebox import CodeboxHandler, CodeboxResultHandler
 from homeweb.handlers.demos.this import ThisHandler
 from homeweb.util import apply_template, write_return
 
@@ -10,6 +11,8 @@ class DemoListHandler(RequestHandler):
              ('olddice', 'Old Dice Roller (offline)', OldDiceRollHandler, True),
              ('chatroom', 'Websocket Chatroom', ChatroomHandler, True),
              ('chatroom_ws', 'Websocket Chatroom (WS)', ChatroomWSHandler, False),
+             ('codebox', 'Codebox', CodeboxHandler, True),
+             ('codebox_result', 'Codebox Result', CodeboxResultHandler, False),
              ('this', 'This Website', ThisHandler, True),
              ]
 

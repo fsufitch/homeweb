@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+{% block title %}fsufitch - Codebox{% endblock %}
+{% set nav_select="demo" %}
+
+{% block head %}
+{{ super() }}
+
+<style type="text/css">
+ #code_editor { 
+   width: 100%;
+   height: 350px;
+ }
+
+</style>
+
+<script type="text/javascript"
+        src="//cdn.jsdelivr.net/ace/1.1.8/min/ace.js"></script>
+
+<script type="text/javascript">
+
+ function get_current_env() {
+   return $("input.env_choice:checked").val();
+ }
+
+ function init_env_toggles() {
+   $('.env_choice').first().prop("checked", true);
+   $('.env_choice').first().parent().addClass('active');
+ }
+
+ function toggle_ace_mode() {
+   var modes = {
+     {% for env_id, env in environments: %}
+     "{{env_id}}": "{{env['ace']}}",
+     {% endfor %}
+   };
+   
+   var editor = ace.edit("code_editor");
+   var current_env = get_current_env();
+   console.log(modes);
+   console.log(current_env);
+   editor.getSession().setMode(modes[current_env]);
+ }
+ 
+ function init_ace() {
+   var editor = ace.edit("code_editor");
+   editor.setTheme("ace/theme/monokai");
+   editor.setOptions({
+     fontSize: "14pt"
+   });   
+   toggle_ace_mode();
+   editor.getSession().on('change', function(){
+     $("textarea#code").val(editor.getSession().getValue());
+   });
+   $("textarea#code").hide();
+ }
+ 
+ $(document).ready(function() {
+   init_env_toggles();
+   init_ace();
+   $('.env_choice').change(toggle_ace_mode);
+ });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<h1> Codebox Demo </h1>
+<p>
+  <a href="https://github.com/fsufitch/codebox">Codebox</a> is a small
+  code sandboxing experiment meant to enable running code written in a
+  multitude of languages in a safe, sandboxed environment. It
+  accomplishes this using <a href="http://docker.io">docker.io</a>
+  LXC containers. Give it a spin below!
+</p>
+
+<p> 
+  The first time Codebox needs to run code of a specific language, it
+  may take a while. The compilation environments are "lazily"
+  downloaded/generated. 
+</p>
+
+<div class="alert alert-info" role="alert"> <strong>Please do not input any
+  hard-drive or RAM bombing code.</strong> Codebox is a work in
+  progress and does not protect against this kind of malicious code
+  yet. </div>
+
+<p><small>Note for Java/Scala: use the public class "test".</small></p>
+<hr />
+
+<form method="post">
+  <div class="row">
+    <div class="col-md-2 text-right">
+      <div data-toggle="buttons">
+        {% for env_id, env in environments: %}
+          <label class="btn btn-default">
+            <input type="radio" name="env_choice" value="{{env_id}}"
+                   class="env_choice" /> {{env['text']}}
+          </label>
+          <br />
+        {% endfor %}
+      </div>
+      <hr />
+      <input type="submit" name="submit" value="Submit code!"
+             class="btn btn-primary"/>
+    </div>
+    <div class="col-md-10">
+      <div id="code_editor"></div>
+      <textarea name="code" id="code"></textarea>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -15,6 +15,9 @@
 	"memcache": {
 		"servers": ["localhost"]
 	},
+	"codebox": {
+		"api": "http://localhost:9000/"
+	},
 	"contact": {
 		"name": "Name here",
 		"email": "foo@bar.com",
