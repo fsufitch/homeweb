@@ -9,7 +9,7 @@ function get_board_array() {
 	for (var c=0; c<cols.length; c++) {
 	    var cell = {
 		'text': cols[c] + rows[r],
-		'is_black': (c+r)%2==0,
+		'is_black': (c+r)%2!=0,
 	    };
 	    row.push(cell);
 	}

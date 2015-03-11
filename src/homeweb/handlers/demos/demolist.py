@@ -15,7 +15,7 @@ class DemoListHandler(RequestHandler):
              ('codebox', 'Codebox', CodeboxHandler, True),
              ('codebox_result', 'Codebox Result', CodeboxResultHandler, False),
              ('this', 'This Website', ThisHandler, True),
-             ('Chess', 'JS Chess Board', ChessBoardHandler, True),
+             ('chess', 'JS Chess Board', ChessBoardHandler, True),
              ]
 
     @classmethod
