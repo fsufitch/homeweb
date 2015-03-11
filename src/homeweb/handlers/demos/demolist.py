@@ -3,6 +3,7 @@ from tornado.web import RequestHandler
 from homeweb.handlers.demos.diceroll import DiceRollHandler, OldDiceRollHandler
 from homeweb.handlers.demos.chatroom import ChatroomHandler, ChatroomWSHandler
 from homeweb.handlers.demos.codebox import CodeboxHandler, CodeboxResultHandler
+from homeweb.handlers.demos.chess import ChessBoardHandler
 from homeweb.handlers.demos.this import ThisHandler
 from homeweb.util import apply_template, write_return
 
@@ -14,6 +15,7 @@ class DemoListHandler(RequestHandler):
              ('codebox', 'Codebox', CodeboxHandler, True),
              ('codebox_result', 'Codebox Result', CodeboxResultHandler, False),
              ('this', 'This Website', ThisHandler, True),
+             ('Chess', 'JS Chess Board', ChessBoardHandler, True),
              ]
 
     @classmethod

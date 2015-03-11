@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}fsufitch - JS Chess Board{% endblock %}
+{% set nav_select="demo" %}
+
+{% block head %}
+{{ super() }}
+
+<style>
+  .chessboard {
+  border: thin solid black;
+  width: 100%;
+  height: auto;
+  }
+  .piece {
+  width: 12.5%;
+  height: 12.5%;
+  color: lightblue;
+  border: thin solid red;
+  }
+</style>
+
+<script type="text/javascript" src="/s/js/demos/chess.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<p> Chess goes here </p>
+<div class="row">
+  <div class="col-sm-2">
+    The quick brown fox jumps over the lazy dog.
+    The quick brown fox jumps over the lazy dog.
+    The quick brown fox jumps over the lazy dog.
+    The quick brown fox jumps over the lazy dog.
+    The quick brown fox jumps over the lazy dog.
+    <button id="drawagain" class="btn btn-primary">Draw Again!</button>
+  </div>
+  <div class="col-sm-10">
+    <canvas id="chessboard" class="chessboard" width="800" height="800">
+      XXX
+    </canvas>
+  </div>
+</div>
+{% endblock %}
